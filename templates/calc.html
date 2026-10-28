@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="wrap sec">
+  <nav class="crumbs small" aria-label="Навигация"><a href="/">Главная</a> / <a href="/kalkulyator/">Калькулятор баллов</a></nav>
+  <span class="kicker">Раздел XVII ПП №719 · ред. от 15.10.2026</span>
+  <h1>Калькулятор баллов для лёгкой промышленности</h1>
+  <p class="lead">Ориентировочный расчёт: проходит ли продукция минимальный порог для акта экспертизы ТПП.</p>
+
+  <div class="calc" id="calc">
+    <div class="calc-main card">
+      <label class="field" for="calc-group">Группа продукции
+        <select id="calc-group" data-calc-group></select>
+      </label>
+      <p class="muted small" data-calc-code></p>
+      <div class="calc-row calc-row--req">
+        <input type="checkbox" id="calc-ntd" data-calc-ntd checked>
+        <label for="calc-ntd">У производителя есть права на техническую документацию в объёме, достаточном для производства (обязательное условие)</label>
+        <span class="calc-pts">усл.</span>
+      </div>
+      <div data-calc-items></div>
+      <p class="muted small">Для материалов укажите долю российских позиций в изделии по номенклатуре составляющих, например 2 из 4 видов фурнитуры = 50%.</p>
+    </div>
+    <aside class="calc-side card card-dark" aria-live="polite">
+      <span class="small on-dark-muted">Набрано баллов</span>
+      <span class="calc-total"><span data-calc-total>0</span> <span class="calc-of">из <span data-calc-min>0</span></span></span>
+      <span class="calc-verdict" data-calc-verdict></span>
+      <p class="small on-dark-muted" data-calc-note hidden></p>
+      <a class="btn" href="/#form">Проверить с экспертом</a>
+    </aside>
+  </div>
+
+  <div class="wrap-narrow prose small muted calc-notes">
+    <p>Расчёт ориентировочный. Окончательное количество баллов определяет ТПП по документам и итогам выездной проверки. «Российскость» материалов оценивается по правилам определения страны происхождения СНГ и подтверждается документами поставщика: актом экспертизы, сертификатом СТ-1 или реестровой записью.</p>
+    <p>Если продукции нет в разделе XVII, баллы не нужны: подтверждение идёт через <a href="/uslugi/st-1/">сертификат СТ-1</a>. Что изменилось в августе 2026 года, читайте в разборе <a href="/pp-1026/">ПП №1026</a>.</p>
+  </div>
+</section>
+{% endblock %}

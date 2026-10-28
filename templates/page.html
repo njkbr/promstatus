@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block main %}
+<article class="wrap-narrow sec doc">
+  {% if crumbs %}<nav class="crumbs small" aria-label="Навигация"><a href="/">Главная</a>{% for c in crumbs %} / <a href="{{ c.href }}">{{ c.name }}</a>{% endfor %}</nav>{% endif %}
+  {% if kicker %}<span class="kicker">{{ kicker }}</span>{% endif %}
+  <h1>{{ h1 }}</h1>
+  {% if date %}<p class="muted small">{{ date }}</p>{% endif %}
+  <div class="prose">{{ body|safe }}</div>
+  {% if cta %}
+  <div class="card card-soft cta">
+    <h2 class="h4">Проверим вашу продукцию бесплатно</h2>
+    <p class="muted small">Экспресс-аудит до 3 рабочих дней: путь, баллы, недостающие документы.</p>
+    <a class="btn" href="/#form">Отправить запрос</a>
+  </div>
+  {% endif %}
+</article>
+{% endblock %}

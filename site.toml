@@ -1,0 +1,17 @@
+# Настройки сайта promstatus.ru
+base_url = "https://promstatus.ru"
+name = "ПромСтатус"
+email = "719@promstatus.ru"
+telegram = "https://t.me/promstatus"
+telegram_bot = "https://t.me/promstatus_bot"
+
+# Ссылка на анкету в Яндекс Формах (iframe). Пока пусто — показываются кнопки почты и Telegram.
+yandex_form_url = ""
+
+# Номер счётчика Яндекс Метрики. Пока пусто — счётчик не подключается.
+metrika_id = ""
+
+# Сведения об исполнителе для страницы «Политика конфиденциальности»
+owner_name = "Алимов Анатолий Игорьевич"
+owner_status = "плательщик налога на профессиональный доход (самозанятый)"
+owner_inn = ""

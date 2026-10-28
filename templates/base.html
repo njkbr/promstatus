@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page_title }}</title>
+<meta name="description" content="{{ description }}">
+<link rel="canonical" href="{{ site.base_url }}{{ path }}">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:title" content="{{ page_title }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:url" content="{{ site.base_url }}{{ path }}">
+<meta property="og:image" content="{{ site.base_url }}/static/img/og.png">
+<meta name="theme-color" content="#1D2733">
+<link rel="icon" href="/static/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/static/fonts/manrope-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/static/fonts/onest-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/static/css/style.css?v={{ v.css }}">
+{% if jsonld %}<script type="application/ld+json">{{ jsonld|safe }}</script>{% endif %}
+</head>
+<body>
+<a class="skip" href="#main">К содержанию</a>
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <a class="logo" href="/" aria-label="{{ site.name }}, на главную">
+      <span class="logo-mark" aria-hidden="true">ПС</span>
+      <span class="logo-name">{{ site.name }}</span>
+    </a>
+    <nav class="nav" aria-label="Основное меню">
+      <a href="/#services">Услуги</a>
+      <a href="/kalkulyator/">Калькулятор баллов</a>
+      <a href="/pp-1026/">ПП №1026</a>
+      <a href="/dokumenty/">Документы</a>
+      <a href="/#prices">Цены</a>
+      <a href="/#faq">Вопросы</a>
+    </nav>
+    <a class="btn btn-sm" href="/#form">Бесплатный аудит</a>
+  </div>
+</header>
+<main id="main">
+{% block main %}{% endblock %}
+</main>
+<footer class="ftr">
+  <div class="wrap ftr-in">
+    <div class="ftr-col">
+      <span class="logo-name">{{ site.name }}</span>
+      <span>Включение продукции лёгкой промышленности в реестр российской промышленной продукции.</span>
+    </div>
+    <div class="ftr-col">
+      <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+      <a href="{{ site.telegram }}">Telegram-канал</a>
+    </div>
+    <div class="ftr-col">
+      <a href="/uslugi/st-1/">Под ключ: СТ-1</a>
+      <a href="/uslugi/akt-tpp/">Под ключ: акт ТПП</a>
+      <a href="/uslugi/etap/">Отдельный этап</a>
+      <a href="/uslugi/soprovozhdenie/">Сопровождение</a>
+    </div>
+  </div>
+  <div class="wrap ftr-low">
+    <span>Не является государственным органом. Консультационные услуги по подготовке документов.</span>
+    <a href="/politika/">Политика конфиденциальности</a>
+  </div>
+</footer>
+{% for s in scripts %}<script src="{{ s }}" defer></script>
+{% endfor %}
+{% if site.metrika_id %}<script>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym({{ site.metrika_id }},"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:false});</script>{% endif %}
+</body>
+</html>

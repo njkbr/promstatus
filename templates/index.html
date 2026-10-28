@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="wrap hero">
+  <div class="hero-text">
+    <span class="kicker">{{ h.hero.kicker }}</span>
+    <h1>{{ h.hero.title }}</h1>
+    <p class="lead">{{ h.hero.lead }}</p>
+    <div class="btns">
+      <a class="btn" href="#form">Проверить продукцию бесплатно</a>
+      <a class="btn btn-ghost" href="/kalkulyator/">Рассчитать баллы</a>
+    </div>
+    <p class="muted small">{{ h.hero.note }}</p>
+  </div>
+  <div class="card card-soft hero-card">
+    <h2 class="h4">Что покажет аудит</h2>
+    <ul class="checks">
+      {% for a in h.hero.audit %}<li>{{ a }}</li>{% endfor %}
+    </ul>
+    <p class="muted small stitch-top">{{ h.hero.audit_note }}</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap stats">
+    {% for s in h.stats %}
+    <div class="stat"><span class="stat-n">{{ s.n }}</span><span class="stat-t">{{ s.t }}</span></div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="wrap sec" id="services">
+  <h2>Почему мы</h2>
+  <div class="grid grid-3">
+    {% for w in h.why %}
+    <div class="card">
+      <span class="num">{{ "%02d"|format(loop.index) }}</span>
+      <h3 class="h4">{{ w.h }}</h3>
+      <p class="muted">{{ w.t }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="wrap">
+  <a class="news" href="{{ h.news.link }}">
+    <span class="kicker">{{ h.news.kicker }}</span>
+    <span class="news-title">{{ h.news.title }}</span>
+    <span class="muted">{{ h.news.text }}</span>
+    <span class="news-more">Читать разбор →</span>
+  </a>
+</section>
+
+<div class="wrap"><hr class="stitch"></div>
+
+<section class="wrap sec">
+  <h2>Как это работает</h2>
+  <p class="muted sec-lead">{{ h.steps_intro.text }}</p>
+  <ol class="steps">
+    {% for st in h.steps %}
+    <li><span class="num">{{ "%02d"|format(loop.index) }}</span><b>{{ st.h }}</b><span class="muted small">{{ st.t }}</span></li>
+    {% endfor %}
+  </ol>
+</section>
+
+<section class="band-soft">
+  <div class="wrap sec split">
+    <div>
+      <h2>Калькулятор баллов</h2>
+      <p class="muted">Выберите группу продукции, отметьте операции, которые выполняются в России, и узнайте, проходит ли продукция порог по разделу XVII ПП №719.</p>
+      <a class="btn" href="/kalkulyator/">Открыть калькулятор</a>
+    </div>
+    <div class="card calc-teaser" aria-hidden="true">
+      <span class="small"><b>Одежда для спортсменов</b> · порог 50 баллов</span>
+      <span class="t-row"><span class="box box-on"></span>Раскрой и пошив в России<b>50</b></span>
+      <span class="t-row"><span class="box"></span>Российский утеплитель<b>15</b></span>
+      <span class="t-row"><span class="box"></span>Российская фурнитура<b>до 20</b></span>
+      <span class="t-total stitch-top"><span>Итого</span><span class="accent">50 из 50 · проходит</span></span>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sec" id="prices">
+  <h2>Услуги и цены</h2>
+  <p class="muted sec-lead">{{ h.prices_intro.text }}</p>
+  <div class="grid grid-5">
+    {% for p in h.prices %}
+    <a class="card price" href="{{ p.link }}">
+      <span class="price-h">{{ p.h }}</span>
+      <span class="price-v">{{ p.price }}</span>
+      <span class="muted small">{{ p.t }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="wrap"><hr class="stitch"></div>
+
+<section class="wrap sec" id="cases">
+  <h2>Кейсы</h2>
+  <div class="grid grid-3">
+    {% for k in h.cases %}
+    <div class="case">
+      <h3 class="h5">{{ k.h }}</h3>
+      <p class="muted small">{{ k.t }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="wrap-narrow sec" id="faq">
+  <h2>Частые вопросы</h2>
+  {% for f in h.faq %}
+  <details class="faq">
+    <summary>{{ f.q }}</summary>
+    <p class="muted">{{ f.a }}</p>
+  </details>
+  {% endfor %}
+</section>
+
+<section class="band" id="form">
+  <div class="wrap sec split">
+    <div>
+      <h2>Бесплатный экспресс-аудит</h2>
+      <p>Ответим до 3 рабочих дней: какой путь, сколько баллов, каких документов не хватает.</p>
+      <p class="small on-dark-muted">Нужно: компания и ИНН, контактное лицо, email, что производите, коды ОКПД2 (если знаете), тип производства, есть ли сейчас записи в реестре.</p>
+    </div>
+    <div class="card form-card">
+      {% if site.yandex_form_url %}
+      <iframe class="yform" src="{{ site.yandex_form_url }}" title="Анкета экспресс-аудита" loading="lazy"></iframe>
+      {% else %}
+      <h3 class="h4">Напишите нам</h3>
+      <p class="muted small">Пришлите список продукции и реквизиты компании. Ответим до 3 рабочих дней.</p>
+      <div class="btns col">
+        <a class="btn" href="mailto:{{ site.email }}?subject=%D0%AD%D0%BA%D1%81%D0%BF%D1%80%D0%B5%D1%81%D1%81-%D0%B0%D1%83%D0%B4%D0%B8%D1%82">Написать на {{ site.email }}</a>
+        <a class="btn btn-ghost" href="{{ site.telegram_bot }}">Написать в Telegram</a>
+      </div>
+      <p class="muted small">Отправляя данные, вы соглашаетесь с <a href="/politika/">политикой обработки персональных данных</a>.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}
