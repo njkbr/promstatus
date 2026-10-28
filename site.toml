@@ -5,6 +5,10 @@ email = "719@promstatus.ru"
 telegram = "https://t.me/promstatus"
 telegram_bot = "https://t.me/promstatus_bot"
 
+# Куда ведёт кнопка «Написать в Telegram» в анкете.
+# Сейчас канал; после настройки личных сообщений канала или Livegram заменить ссылку.
+telegram_contact = "https://t.me/promstatus"
+
 # Ссылка на анкету в Яндекс Формах (iframe). Пока пусто — показываются кнопки почты и Telegram.
 yandex_form_url = ""
 

@@ -110,6 +110,9 @@ def main():
     (DIST / "404.html").write_text(env.get_template("404.html").render(
         **base, path="/404.html", page_title=f'Страница не найдена – {SITE["name"]}', description=""), encoding="utf-8")
 
+    # .htaccess: своя страница 404 и кодировка
+    (DIST / ".htaccess").write_text("ErrorDocument 404 /404.html\nAddDefaultCharset UTF-8\n", encoding="utf-8")
+
     # robots и sitemap
     (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE['base_url']}/sitemap.xml\n", encoding="utf-8")
     today = date.today().isoformat()
