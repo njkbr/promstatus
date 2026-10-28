@@ -201,3 +201,9 @@ h1+.lead{margin-top:16px}
   .news{padding:22px}
   .stat-n{font-size:30px}
 }
+
+/* Адрес почты с кнопкой копирования */
+.mailbox{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border:1px dashed var(--line);border-radius:6px;background:var(--ground)}
+.mailbox-addr{font-weight:700;font-size:18px;color:var(--ink);text-decoration:none;word-break:break-all;user-select:all}
+.mailbox-addr:hover{color:var(--accent)}
+button.btn{font:inherit;font-weight:600;cursor:pointer;border:0}
