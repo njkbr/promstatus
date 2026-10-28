@@ -86,7 +86,7 @@
     {% for p in h.prices %}
     <a class="card price" href="{{ p.link }}">
       <span class="price-h">{{ p.h }}</span>
-      <span class="price-v">{{ p.price }}</span>
+      <span class="price-v">{{ p.price }}{% if p.per %}<small class="price-per">{{ p.per }}</small>{% endif %}</span>
       <span class="muted small">{{ p.t }}</span>
     </a>
     {% endfor %}
