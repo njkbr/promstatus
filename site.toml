@@ -16,11 +16,11 @@ yandex_form_url = "https://forms.yandex.ru/u/6ae22e402c4f89ba1f916b64/?iframe=1"
 yandex_form_id = "6ae22e402c4f89ba1f916b64"
 
 # Коды подтверждения прав: Яндекс Вебмастер и Google Search Console (только значение content из мета-тега)
-yandex_verification = ""
-google_verification = ""
+yandex_verification = "954ffa724e87f934"
+google_verification = "BE7SohMXooJ9Z9v_RzH0rfDTTJen8Y36fgQmJrGpeW8"
 
 # Номер счётчика Яндекс Метрики. Пока пусто — счётчик не подключается.
-metrika_id = ""
+metrika_id = "113890403"
 
 # Сведения об исполнителе для страницы «Политика конфиденциальности»
 owner_name = "Алимов Анатолий Игорьевич"
