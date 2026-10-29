@@ -47,19 +47,28 @@
 </main>
 <footer class="ftr">
   <div class="wrap ftr-in">
-    <div class="ftr-col">
+    <div class="ftr-col ftr-brand">
       <span class="logo-name">{{ site.name }}</span>
-      <span>Включение продукции лёгкой промышленности в реестр российской промышленной продукции.</span>
+      <span class="muted">Включение продукции лёгкой промышленности в реестр российской промышленной продукции.</span>
     </div>
-    <div class="ftr-col">
-      <a href="mailto:{{ site.email }}">{{ site.email }}</a>
-      <a href="{{ site.telegram }}">Telegram-канал</a>
-    </div>
-    <div class="ftr-col">
+    <nav class="ftr-col" aria-label="Услуги">
+      <span class="ftr-h">Услуги</span>
       <a href="/uslugi/st-1/">Под ключ: СТ-1</a>
       <a href="/uslugi/akt-tpp/">Под ключ: акт ТПП</a>
       <a href="/uslugi/etap/">Отдельный этап</a>
       <a href="/uslugi/soprovozhdenie/">Сопровождение</a>
+    </nav>
+    <nav class="ftr-col" aria-label="Полезное">
+      <span class="ftr-h">Полезное</span>
+      <a href="/kalkulyator/">Калькулятор баллов</a>
+      <a href="/pp-1026/">ПП №1026</a>
+      <a href="/dokumenty/">Документы для ТПП</a>
+    </nav>
+    <div class="ftr-col">
+      <span class="ftr-h">Контакты</span>
+      <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+      <a href="{{ site.telegram }}">Telegram-канал</a>
+      <a href="/#form">Бесплатный аудит</a>
     </div>
   </div>
   <div class="wrap ftr-low">
