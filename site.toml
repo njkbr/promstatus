@@ -10,7 +10,14 @@ telegram_bot = "https://t.me/promstatus_bot"
 telegram_contact = "https://t.me/promstatus"
 
 # Ссылка на анкету в Яндекс Формах (iframe). Пока пусто — показываются кнопки почты и Telegram.
-yandex_form_url = ""
+yandex_form_url = "https://forms.yandex.ru/u/6ae22e402c4f89ba1f916b64/?iframe=1"
+
+# ID формы (часть адреса после /u/) — для автоматической высоты iframe
+yandex_form_id = "6ae22e402c4f89ba1f916b64"
+
+# Коды подтверждения прав: Яндекс Вебмастер и Google Search Console (только значение content из мета-тега)
+yandex_verification = ""
+google_verification = ""
 
 # Номер счётчика Яндекс Метрики. Пока пусто — счётчик не подключается.
 metrika_id = ""

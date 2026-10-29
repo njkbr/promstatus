@@ -62,6 +62,7 @@ def main():
     v = {"css": file_hash(DIST / "static/css/style.css"), "calc": file_hash(DIST / "static/js/calc.js")}
     base = {"site": SITE, "v": v, "scripts": [], "jsonld": None}
     urls = []
+    lastmod = {}
 
     org = {
         "@context": "https://schema.org", "@type": "ProfessionalService",
@@ -98,8 +99,22 @@ def main():
             first = meta["slug"].split("/")[0]
             crumbs = list(crumbs_map.get(first, []))
             crumbs.append({"name": meta.get("h1", meta["title"]), "href": path})
+            ld = [{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+                {"@type": "ListItem", "position": i + 1, "name": c["name"], "item": SITE["base_url"] + c["href"]}
+                for i, c in enumerate([{"name": "Главная", "href": "/"}] + crumbs)]}]
+            if is_article:
+                ld.append({"@context": "https://schema.org", "@type": "Article", "headline": meta.get("h1", meta["title"]),
+                           "description": meta.get("description", ""), "datePublished": meta.get("date"),
+                           "dateModified": meta.get("updated", meta.get("date")), "inLanguage": "ru",
+                           "mainEntityOfPage": SITE["base_url"] + path, "image": SITE["base_url"] + "/static/img/og.png",
+                           "author": {"@type": "Organization", "name": SITE["name"], "url": SITE["base_url"]},
+                           "publisher": {"@type": "Organization", "name": SITE["name"], "url": SITE["base_url"]}})
+            if meta.get("updated") or meta.get("date"):
+                lastmod[path] = meta.get("updated", meta.get("date"))
             write(path, env.get_template("page.html").render(
-                **base, path=path, page_title=f'{meta["title"]} – {SITE["name"]}',
+                **{**base, "jsonld": json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")},
+                og_type="article" if is_article else "website", noindex=meta.get("noindex") == "true",
+                path=path, page_title=f'{meta["title"]} – {SITE["name"]}',
                 description=meta.get("description", ""), h1=meta.get("h1", meta["title"]),
                 kicker=meta.get("kicker"), body=html, crumbs=crumbs,
                 date=ru_date(meta["date"]) if meta.get("date") else None,
@@ -108,16 +123,16 @@ def main():
 
     # 404
     (DIST / "404.html").write_text(env.get_template("404.html").render(
-        **base, path="/404.html", page_title=f'Страница не найдена – {SITE["name"]}', description=""), encoding="utf-8")
+        **base, noindex=True, path="/404.html", page_title=f'Страница не найдена – {SITE["name"]}', description=""), encoding="utf-8")
 
     # .htaccess: своя страница 404 и кодировка
     (DIST / ".htaccess").write_text("ErrorDocument 404 /404.html\nAddDefaultCharset UTF-8\n", encoding="utf-8")
 
     # robots и sitemap
-    (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE['base_url']}/sitemap.xml\n", encoding="utf-8")
+    (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /404.html\n\nUser-agent: Yandex\nAllow: /\nDisallow: /404.html\nClean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&from\n\nSitemap: {SITE['base_url']}/sitemap.xml\n", encoding="utf-8")
     today = date.today().isoformat()
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    sm += [f"  <url><loc>{SITE['base_url']}{u}</loc><lastmod>{today}</lastmod></url>" for u in urls]
+    sm += [f"  <url><loc>{SITE['base_url']}{u}</loc><lastmod>{lastmod.get(u, today)}</lastmod></url>" for u in urls]
     sm.append("</urlset>")
     (DIST / "sitemap.xml").write_text("\n".join(sm) + "\n", encoding="utf-8")
 

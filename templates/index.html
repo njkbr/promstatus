@@ -126,28 +126,31 @@
     </div>
     <div class="card form-card">
       {% if site.yandex_form_url %}
-      <iframe class="yform" src="{{ site.yandex_form_url }}" title="Анкета экспресс-аудита" loading="lazy"></iframe>
+      <iframe class="yform" src="{{ site.yandex_form_url }}" name="ya-form-{{ site.yandex_form_id }}" title="Анкета экспресс-аудита" loading="lazy"></iframe>
+      <script src="https://forms.yandex.ru/_static/embed.js" defer></script>
+      <p class="muted small form-alt">Удобнее написать письмо? <a class="mailbox-inline" href="mailto:{{ site.email }}" data-goal="mailto">{{ site.email }}</a> <button class="link-btn" type="button" data-copy="{{ site.email }}" data-goal="copy_email">Скопировать</button></p>
       {% else %}
       <h3 class="h4">Напишите нам</h3>
       <p class="muted small">Пришлите список продукции и реквизиты компании. Ответим до 3 рабочих дней.</p>
       <div class="btns col">
         <div class="mailbox">
-          <a class="mailbox-addr" href="mailto:{{ site.email }}?subject=%D0%AD%D0%BA%D1%81%D0%BF%D1%80%D0%B5%D1%81%D1%81-%D0%B0%D1%83%D0%B4%D0%B8%D1%82">{{ site.email }}</a>
-          <button class="btn" type="button" data-copy="{{ site.email }}">Скопировать адрес</button>
+          <a class="mailbox-addr" href="mailto:{{ site.email }}?subject=%D0%AD%D0%BA%D1%81%D0%BF%D1%80%D0%B5%D1%81%D1%81-%D0%B0%D1%83%D0%B4%D0%B8%D1%82" data-goal="mailto">{{ site.email }}</a>
+          <button class="btn" type="button" data-copy="{{ site.email }}" data-goal="copy_email">Скопировать адрес</button>
         </div>
-        <a class="btn btn-ghost" href="{{ site.telegram_contact }}">Написать в Telegram</a>
+        <a class="btn btn-ghost" href="{{ site.telegram_contact }}" data-goal="telegram">Написать в Telegram</a>
       </div>
+      <p class="muted small">Отправляя данные, вы соглашаетесь с <a href="/politika/">политикой обработки персональных данных</a>.</p>
+      {% endif %}
       <script>
       document.querySelectorAll('[data-copy]').forEach(function (b) {
+        var label = b.textContent;
         b.addEventListener('click', function () {
-          var t = b.getAttribute('data-copy'), done = function () { b.textContent = 'Скопировано'; setTimeout(function () { b.textContent = 'Скопировать адрес'; }, 2000); };
-          if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(t).then(done, function () { fallback(); }); } else { fallback(); }
+          var t = b.getAttribute('data-copy'), done = function () { b.textContent = 'Скопировано'; setTimeout(function () { b.textContent = label; }, 2000); };
+          if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(t).then(done, fallback); } else { fallback(); }
           function fallback() { var i = document.createElement('textarea'); i.value = t; i.style.position = 'fixed'; i.style.opacity = '0'; document.body.appendChild(i); i.select(); try { document.execCommand('copy'); done(); } catch (e) {} document.body.removeChild(i); }
         });
       });
       </script>
-      <p class="muted small">Отправляя данные, вы соглашаетесь с <a href="/politika/">политикой обработки персональных данных</a>.</p>
-      {% endif %}
     </div>
   </div>
 </section>

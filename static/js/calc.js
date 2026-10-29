@@ -170,6 +170,9 @@
   }
 
   sel.addEventListener('change', render);
+  var goalSent = false;
+  function goal() { if (!goalSent && window.psGoal) { goalSent = true; window.psGoal('calc_used'); } }
+  list.addEventListener('change', goal);
   list.addEventListener('input', update);
   list.addEventListener('change', update);
   ntd.addEventListener('change', update);
