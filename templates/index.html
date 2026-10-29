@@ -126,8 +126,10 @@
     </div>
     <div class="card form-card">
       {% if site.yandex_form_url %}
-      <iframe class="yform" src="{{ site.yandex_form_url }}" name="ya-form-{{ site.yandex_form_id }}" title="Анкета экспресс-аудита" loading="lazy"></iframe>
-      <script src="https://forms.yandex.ru/_static/embed.js" defer></script>
+      <span class="kicker">Анкета · 2 минуты</span>
+      <h3 class="h4">Расскажите о продукции</h3>
+      <p class="muted small">10 коротких вопросов: компания, что производите, тип производства, есть ли записи в реестре. Ответим на email до 3 рабочих дней.</p>
+      <button class="btn btn-block" type="button" data-open-form data-goal="form_open">Заполнить анкету</button>
       <p class="muted small form-alt">Удобнее написать письмо? <a class="mailbox-inline" href="mailto:{{ site.email }}" data-goal="mailto">{{ site.email }}</a> <button class="link-btn" type="button" data-copy="{{ site.email }}" data-goal="copy_email">Скопировать</button></p>
       {% else %}
       <h3 class="h4">Напишите нам</h3>

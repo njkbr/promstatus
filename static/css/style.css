@@ -218,3 +218,16 @@ button.btn{font:inherit;font-weight:600;cursor:pointer;border:0}
 
 .form-alt{margin-top:12px}
 .link-btn{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;cursor:pointer}
+
+/* Анкета во всплывающем окне */
+.btn-block{width:100%}
+.fmodal{border:0;padding:0;border-radius:var(--r);width:min(680px,calc(100vw - 32px));max-height:calc(100vh - 48px);background:var(--white);color:var(--ink);overflow:hidden}
+.fmodal::backdrop{background:rgba(29,39,51,.6)}
+.fmodal[open]{display:flex;flex-direction:column}
+.fmodal-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px dashed var(--line)}
+.fmodal-t{font-weight:700}
+.fmodal-x{background:none;border:0;font-size:28px;line-height:1;cursor:pointer;color:var(--muted);padding:0 4px}
+.fmodal-bd{overflow:auto;padding:0 8px}
+.fmodal .yform{min-height:70vh}
+html.noscroll{overflow:hidden}
+@media (max-width:600px){.fmodal{width:100vw;max-width:100vw;max-height:100dvh;height:100dvh;margin:0;border-radius:0}}

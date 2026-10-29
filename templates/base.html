@@ -73,5 +73,22 @@
 document.addEventListener('click',function(e){var g=e.target.closest('[data-goal]');if(g&&window.ym){ym({{ site.metrika_id }},'reachGoal',g.getAttribute('data-goal'));}});
 window.psGoal=function(n){if(window.ym){ym({{ site.metrika_id }},'reachGoal',n);}};</script>
 <noscript><div><img src="https://mc.yandex.ru/watch/{{ site.metrika_id }}" style="position:absolute;left:-9999px" alt=""></div></noscript>{% endif %}
+{% if site.yandex_form_url %}
+<dialog class="fmodal" id="fmodal" aria-label="Анкета экспресс-аудита">
+  <div class="fmodal-hd"><span class="fmodal-t">Бесплатный экспресс-аудит</span><button class="fmodal-x" type="button" data-close-form aria-label="Закрыть">×</button></div>
+  <div class="fmodal-bd"><iframe class="yform" data-src="{{ site.yandex_form_url }}" name="ya-form-{{ site.yandex_form_id }}" title="Анкета экспресс-аудита"></iframe></div>
+</dialog>
+<script>
+(function(){var d=document.getElementById('fmodal');if(!d)return;var f=d.querySelector('iframe'),loaded=false;
+function open(e){if(e)e.preventDefault();if(!loaded){f.src=f.getAttribute('data-src');var s=document.createElement('script');s.src='https://forms.yandex.ru/_static/embed.js';document.body.appendChild(s);loaded=true;}
+if(d.showModal){d.showModal();}else{d.setAttribute('open','');}document.documentElement.classList.add('noscroll');}
+function close(){d.close?d.close():d.removeAttribute('open');}
+d.addEventListener('close',function(){document.documentElement.classList.remove('noscroll');});
+d.addEventListener('click',function(e){if(e.target===d)close();});
+document.querySelectorAll('[data-open-form],a[href="/#form"],a[href="#form"]').forEach(function(b){b.addEventListener('click',open);});
+d.querySelector('[data-close-form]').addEventListener('click',close);
+if(location.hash==='#anketa')open();})();
+</script>
+{% endif %}
 </body>
 </html>
