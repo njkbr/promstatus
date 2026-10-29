@@ -17,12 +17,19 @@
         <label for="calc-ntd">У производителя есть права на техническую документацию в объёме, достаточном для производства (обязательное условие)</label>
         <span class="calc-pts">усл.</span>
       </div>
+      <fieldset class="calc-warmq" data-calc-warmq hidden>
+        <legend>Изделие с утеплителем?</legend>
+        <label><input type="radio" name="calc-warm" value="0" checked> Нет</label>
+        <label><input type="radio" name="calc-warm" value="1"> Да</label>
+        <p class="muted small">Для утеплённых изделий порог выше.</p>
+      </fieldset>
       <div data-calc-items></div>
       <p class="muted small">Для материалов укажите долю российских позиций в изделии по номенклатуре составляющих, например 2 из 4 видов фурнитуры = 50%.</p>
     </div>
     <aside class="calc-side card card-dark" aria-live="polite">
       <span class="small on-dark-muted">Набрано баллов</span>
       <span class="calc-total"><span data-calc-total>0</span> <span class="calc-of">из <span data-calc-min>0</span></span></span>
+      <span class="small on-dark-muted" data-calc-minnote></span>
       <span class="calc-verdict" data-calc-verdict></span>
       <p class="calc-warn small" data-calc-warn hidden></p>
       <p class="small on-dark-muted" data-calc-note hidden></p>

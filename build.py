@@ -59,6 +59,11 @@ def main():
     if DIST.exists():
         shutil.rmtree(DIST)
     shutil.copytree(ROOT / "static", DIST / "static")
+    # файлы для корня сайта (подтверждения поисковиков и т.п.)
+    if (ROOT / "root").exists():
+        for f in (ROOT / "root").iterdir():
+            if f.is_file():
+                shutil.copy2(f, DIST / f.name)
     v = {"css": file_hash(DIST / "static/css/style.css"), "calc": file_hash(DIST / "static/js/calc.js")}
     base = {"site": SITE, "v": v, "scripts": [], "jsonld": None}
     urls = []

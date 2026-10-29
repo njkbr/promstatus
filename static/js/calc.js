@@ -91,13 +91,16 @@
   var sel = root.querySelector('[data-calc-group]');
   var list = root.querySelector('[data-calc-items]');
   var ntd = root.querySelector('[data-calc-ntd]');
+  var warmq = root.querySelector('[data-calc-warmq]');
+  function warmYes() { var r = warmq.querySelector('input:checked'); return !warmq.hidden && r && r.value === '1'; }
   var out = {
     total: root.querySelector('[data-calc-total]'),
     min: root.querySelector('[data-calc-min]'),
     verdict: root.querySelector('[data-calc-verdict]'),
     code: root.querySelector('[data-calc-code]'),
     note: root.querySelector('[data-calc-note]'),
-    warn: root.querySelector('[data-calc-warn]')
+    warn: root.querySelector('[data-calc-warn]'),
+    minnote: root.querySelector('[data-calc-minnote]')
   };
 
   GROUPS.forEach(function (g) {
@@ -122,7 +125,7 @@
       input.id = id;
       input.dataset.pts = it.pts;
       input.dataset.type = it.type;
-      if (it.warm) input.dataset.warm = '1';
+      if (it.warm) { input.dataset.warm = '1'; row.dataset.warm = '1'; }
       if (it.type === 'op') {
         input.type = 'checkbox';
         pts.textContent = it.pts;
@@ -147,6 +150,8 @@
       }
       list.appendChild(row);
     });
+    warmq.hidden = !g.minWarm;
+    if (!g.minWarm) warmq.querySelector('input[value="0"]').checked = true;
     out.code.textContent = 'ОКПД2: ' + g.code;
     out.note.textContent = g.note;
     out.note.hidden = !g.note;
@@ -155,11 +160,13 @@
 
   function update() {
     var g = GROUPS.filter(function (x) { return x.id === sel.value; })[0] || GROUPS[0];
-    var total = 0, warm = false;
+    var total = 0, warm = warmYes();
+    list.querySelectorAll('[data-warm]').forEach(function (el) { if (el.classList.contains('calc-row')) el.hidden = !warm; });
     list.querySelectorAll('input').forEach(function (inp) {
       var p = Number(inp.dataset.pts);
+      if (inp.dataset.warm && !warm) { inp.checked = false; return; }
       if (inp.dataset.type === 'op') {
-        if (inp.checked) { total += p; if (inp.dataset.warm) warm = true; }
+        if (inp.checked) { total += p; }
       } else {
         var share = Math.max(0, Math.min(100, Number(inp.value) || 0)) / 100;
         total += Math.round(p * share * 100) / 100;
@@ -169,12 +176,13 @@
     var min = warm && g.minWarm ? g.minWarm : g.min;
     out.total.textContent = String(total).replace('.', ',');
     out.min.textContent = min;
+    out.minnote.textContent = g.minWarm ? (warm ? 'Порог ' + min + ' – для изделий с утеплителем' : 'Порог ' + min + ' – для изделий без утеплителя') : '';
     var ok = total >= min && ntd.checked;
     out.verdict.textContent = !ntd.checked
       ? 'нужны права на техническую документацию'
       : (ok ? 'проходит порог' : 'не хватает ' + String(Math.round((min - total) * 100) / 100).replace('.', ',') + ' баллов');
     out.verdict.className = 'calc-verdict ' + (ok ? 'is-ok' : 'is-no');
-    var zero = ok && warm && total === min;
+    var zero = ok && total === min;
     out.warn.textContent = zero ? 'Запас 0 баллов. Если ТПП не засчитает один пункт, порог не пройден. Добавьте проклейку швов (если она есть в НТД) или российские нитки.' : '';
     out.warn.hidden = !zero;
   }
@@ -186,5 +194,6 @@
   list.addEventListener('input', update);
   list.addEventListener('change', update);
   ntd.addEventListener('change', update);
+  warmq.addEventListener('change', update);
   render();
 })();
