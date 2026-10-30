@@ -264,3 +264,6 @@ html.noscroll{overflow:hidden}
 @media (min-width:901px){.hdr-in{gap:12px 20px}.nav{gap:6px 18px}}
 @media (max-width:1180px) and (min-width:901px){.logo-tag{display:none}}
 .hdr-act{margin-left:auto}
+@media (max-width:420px){.hdr .tel{font-size:14px;letter-spacing:0}.hdr-act{gap:8px}.hdr-act .btn-sm{padding-left:12px;padding-right:12px;font-size:14px}}
+@media (max-width:350px){.hdr .tel{font-size:13px}.hdr-act .btn-sm{padding-left:10px;padding-right:10px;font-size:13px}}
+.calc-row--alt label{font-style:italic}
