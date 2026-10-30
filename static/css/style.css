@@ -63,8 +63,6 @@ p{margin:0 0 14px}
 .hdr{border-bottom:1px solid var(--line);background:var(--ground);position:sticky;top:0;z-index:5}
 .hdr-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-top:14px;padding-bottom:14px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.logo-mark{width:34px;height:34px;border-radius:8px;background:var(--ink);color:var(--ground);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:15px;position:relative}
-.logo-mark::after{content:"";position:absolute;left:6px;right:6px;bottom:5px;border-bottom:1.5px dashed var(--accent)}
 .logo-name{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.01em}
 .nav{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:15px;font-weight:500}
 .nav a{text-decoration:none}
@@ -245,3 +243,24 @@ html.noscroll{overflow:hidden}
 .calc-warmq label{display:flex;gap:6px;align-items:center;cursor:pointer}
 .calc-warmq p{flex-basis:100%;margin:0}
 .calc-row[hidden]{display:none}
+
+/* логотип 3C-2, телефон, копирование по клику (30.10) */
+.logo-mark{width:34px;height:34px;flex:none;display:block}
+
+.logo-txt{display:flex;flex-direction:column;line-height:1.1}
+.logo-tag{font-size:12.5px;color:var(--muted);font-family:var(--text);letter-spacing:.01em;margin-top:2px}
+.hdr-act{display:flex;align-items:center;gap:18px}
+.tel{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:.01em;text-decoration:none;white-space:nowrap;color:var(--ink)}
+.tel b{color:var(--accent);font-weight:800}
+.tel:hover{color:var(--accent)}
+.cp{cursor:pointer;display:inline-block}
+.cp.is-done{color:var(--accent);text-decoration:none}
+.ftr .tel{color:inherit;font-size:16px}
+.form-alt .tel{font-size:16px}
+@media (max-width:900px){.logo-tag{display:none}}
+@media (max-width:640px){.hdr-act{gap:12px}.hdr .tel{font-size:15px}}
+@media (max-width:520px){.hdr-act{width:100%;justify-content:space-between}.hdr-act .btn{white-space:nowrap}}
+.form-card .form-alt .tel{color:var(--ink)}.form-card .form-alt .tel.is-done{color:var(--accent)}
+@media (min-width:901px){.hdr-in{gap:12px 20px}.nav{gap:6px 18px}}
+@media (max-width:1180px) and (min-width:901px){.logo-tag{display:none}}
+.hdr-act{margin-left:auto}

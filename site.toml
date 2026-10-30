@@ -2,14 +2,18 @@
 base_url = "https://promstatus.ru"
 name = "ПромСтатус"
 email = "719@promstatus.ru"
-telegram = "https://t.me/promstatus"
-telegram_bot = "https://t.me/promstatus_bot"
+phone = "+79343445934"
+phone_display = "+7 934 34-45-934"
+phone_doc = "+7 934 344-59-34"
+tagline = "реестр 719 · нацрежим 1875"
+# МАКС: ссылка на канал/чат. Пока пусто – кнопка не показывается.
+max_url = ""
+# Telegram заморожен 30.10.2026 (персональные данные), на сайте не показывается.
+telegram = ""
 
-# Куда ведёт кнопка «Написать в Telegram» в анкете.
-# Сейчас канал; после настройки личных сообщений канала или Livegram заменить ссылку.
-telegram_contact = "https://t.me/promstatus"
+telegram_contact = ""
 
-# Ссылка на анкету в Яндекс Формах (iframe). Пока пусто — показываются кнопки почты и Telegram.
+# Ссылка на анкету в Яндекс Формах (iframe). Пока пусто — показывается кнопка почты.
 yandex_form_url = "https://forms.yandex.ru/u/6ae22e402c4f89ba1f916b64/?iframe=1"
 
 # ID формы (часть адреса после /u/) — для автоматической высоты iframe

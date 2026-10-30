@@ -71,7 +71,8 @@ def main():
 
     org = {
         "@context": "https://schema.org", "@type": "ProfessionalService",
-        "name": SITE["name"], "url": SITE["base_url"], "email": SITE["email"],
+        "name": SITE["name"], "url": SITE["base_url"], "email": SITE["email"], "telephone": SITE["phone"],
+        "logo": SITE["base_url"] + "/static/img/apple-touch-icon.png", "image": SITE["base_url"] + "/static/img/og-promstatus.png",
         "description": "Включение продукции лёгкой промышленности в реестр российской промышленной продукции по ПП №719.",
         "areaServed": "RU",
     }
@@ -111,7 +112,7 @@ def main():
                 ld.append({"@context": "https://schema.org", "@type": "Article", "headline": meta.get("h1", meta["title"]),
                            "description": meta.get("description", ""), "datePublished": meta.get("date"),
                            "dateModified": meta.get("updated", meta.get("date")), "inLanguage": "ru",
-                           "mainEntityOfPage": SITE["base_url"] + path, "image": SITE["base_url"] + "/static/img/og.png",
+                           "mainEntityOfPage": SITE["base_url"] + path, "image": SITE["base_url"] + "/static/img/og-promstatus.png",
                            "author": {"@type": "Organization", "name": SITE["name"], "url": SITE["base_url"]},
                            "publisher": {"@type": "Organization", "name": SITE["name"], "url": SITE["base_url"]}})
             if meta.get("updated") or meta.get("date"):
