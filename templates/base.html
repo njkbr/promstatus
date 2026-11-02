@@ -29,25 +29,36 @@
 <link rel="preload" href="/static/fonts/manrope-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/static/fonts/onest-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/static/css/style.css?v={{ v.css }}">
+<script>if(window.self!==window.top){document.documentElement.className+=' in-frame';}</script>
 {% if jsonld %}<script type="application/ld+json">{{ jsonld|safe }}</script>{% endif %}
 </head>
 <body>
 <a class="skip" href="#main">К содержанию</a>
-<header class="hdr">
+<header class="hdr" id="hdr">
   <div class="wrap hdr-in">
     <a class="logo" href="/" aria-label="{{ site.name }}, на главную">
       <svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1D2733"/><rect x="11.5" y="16" width="8" height="8" rx="2" fill="none" stroke="#8A8E93" stroke-width="2.2"/><line x1="27" y1="20" x2="49" y2="20" stroke="#8A8E93" stroke-width="6" stroke-linecap="round"/><rect x="11.5" y="28" width="8" height="8" rx="2" fill="none" stroke="#8A8E93" stroke-width="2.2"/><line x1="27" y1="32" x2="49" y2="32" stroke="#8A8E93" stroke-width="6" stroke-linecap="round"/><path d="M10.5 44L14.5 48.5L22 38.5" stroke="#A9512B" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="27" y1="44" x2="53" y2="44" stroke="#A9512B" stroke-width="6" stroke-linecap="round"/></svg>
       <span class="logo-name">{{ site.name }}</span>
     </a>
-    <nav class="nav" aria-label="Основное меню">
+    <nav class="nav" id="nav" aria-label="Основное меню">
       <a href="/#services">Услуги</a>
       <a href="/kalkulyator/">Калькулятор</a>
-      <a href="/pp-1026/">ПП №1026</a>
+      <a href="/stati/">Статьи</a>
       <a href="/dokumenty/">Документы</a>
       <a href="/#prices">Цены</a>
       <a href="/#faq">Вопросы</a>
+      <div class="nav-m">
+        <a class="tel nav-tel" href="tel:{{ site.phone }}" data-goal="phone">+7&nbsp;<b>934</b>&nbsp;34-45-<b>934</b></a>
+        <a class="btn btn-block" href="/#form">Бесплатный экспресс-аудит</a>
+        <a class="nav-mail cp" href="mailto:{{ site.email }}" data-copy-self="{{ site.email }}" data-goal="copy_email">{{ site.email }}</a>
+      </div>
     </nav>
-    <div class="hdr-act"><a class="tel cp" href="tel:{{ site.phone }}" data-tel="{{ site.phone_doc }}" data-goal="phone">+7&nbsp;<b>934</b>&nbsp;34-45-<b>934</b></a><a class="btn btn-sm" href="/#form">Бесплатный аудит</a></div>
+    <div class="hdr-act">
+      <a class="tel cp hdr-tel" href="tel:{{ site.phone }}" data-tel="{{ site.phone_doc }}" data-goal="phone">+7&nbsp;<b>934</b>&nbsp;34-45-<b>934</b></a>
+      <a class="ib ib-tel" href="tel:{{ site.phone }}" data-goal="phone" aria-label="Позвонить: {{ site.phone_display }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
+      <a class="btn btn-sm" href="/#form"><span class="t-lg">Бесплатный аудит</span><span class="t-sm">Аудит</span></a>
+      <button class="ib ib-menu" type="button" aria-controls="nav" aria-expanded="false" aria-label="Меню"><svg class="i-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="i-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
   </div>
 </header>
 <main id="main">
@@ -69,8 +80,9 @@
     <nav class="ftr-col" aria-label="Полезное">
       <span class="ftr-h">Полезное</span>
       <a href="/kalkulyator/">Калькулятор баллов</a>
-      <a href="/pp-1026/">ПП №1026</a>
-      <a href="/st1-2027/">СТ-1 после 01.01.2027</a>
+      <a href="/stati/">Статьи</a>
+      {% for a in latest_articles[:2] %}<a href="{{ a.path }}">{{ a.short }}</a>
+      {% endfor %}
       <a href="/dokumenty/">Документы для ТПП</a>
     </nav>
     <div class="ftr-col">
@@ -97,9 +109,9 @@ el._t=setTimeout(function(){el.innerHTML=h;el.classList.remove('is-done');el.sty
 document.querySelectorAll('[data-copy-self]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();copy(a.getAttribute('data-copy-self'),function(){flash(a);});});});
 document.querySelectorAll('[data-tel]').forEach(function(a){a.addEventListener('click',function(e){if(touch)return;e.preventDefault();copy(a.getAttribute('data-tel'),function(){flash(a);});});});})();
 </script>
-{% if site.metrika_id %}<script>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js?id={{ site.metrika_id }}","ym");ym({{ site.metrika_id }},"init",{ssr:true,webvisor:true,clickmap:true,referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});
+{% if site.metrika_id %}<script>if(window.self===window.top){(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js?id={{ site.metrika_id }}","ym");ym({{ site.metrika_id }},"init",{ssr:true,webvisor:true,clickmap:true,referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});}
 document.addEventListener('click',function(e){var g=e.target.closest('[data-goal]');if(g&&window.ym){ym({{ site.metrika_id }},'reachGoal',g.getAttribute('data-goal'));}});
-window.psGoal=function(n){if(window.ym){ym({{ site.metrika_id }},'reachGoal',n);}};</script>
+window.psGoal=function(n){if(window.self!==window.top){try{if(window.parent.psGoal){window.parent.psGoal(n);}}catch(e){}return;}if(window.ym){ym({{ site.metrika_id }},'reachGoal',n);}};</script>
 <noscript><div><img src="https://mc.yandex.ru/watch/{{ site.metrika_id }}" style="position:absolute;left:-9999px" alt=""></div></noscript>{% endif %}
 {% if site.yandex_form_url %}
 <dialog class="fmodal" id="fmodal" aria-label="Анкета экспресс-аудита">
@@ -108,7 +120,7 @@ window.psGoal=function(n){if(window.ym){ym({{ site.metrika_id }},'reachGoal',n);
 </dialog>
 <script>
 (function(){var d=document.getElementById('fmodal');if(!d)return;var f=d.querySelector('iframe'),loaded=false;
-function open(e){if(e)e.preventDefault();if(!loaded){f.src=f.getAttribute('data-src');var s=document.createElement('script');s.src='https://forms.yandex.ru/_static/embed.js';document.body.appendChild(s);loaded=true;}
+function open(e){if(e)e.preventDefault();if(window.psGoal){psGoal('form_open');}if(window.psMenu){psMenu(false);}if(!loaded){f.src=f.getAttribute('data-src');var s=document.createElement('script');s.src='https://forms.yandex.ru/_static/embed.js';document.body.appendChild(s);loaded=true;}
 if(d.showModal){d.showModal();}else{d.setAttribute('open','');}document.documentElement.classList.add('noscroll');}
 function close(){d.close?d.close():d.removeAttribute('open');}
 d.addEventListener('close',function(){document.documentElement.classList.remove('noscroll');});
@@ -118,5 +130,21 @@ d.querySelector('[data-close-form]').addEventListener('click',close);
 if(location.hash==='#anketa')open();})();
 </script>
 {% endif %}
+<script>
+(function(){var h=document.getElementById('hdr');if(!h)return;var b=h.querySelector('.ib-menu'),n=document.getElementById('nav'),mq=window.matchMedia('(max-width:900px)'),last=window.scrollY||0,tick=false;
+function menu(o){if(!b)return;h.classList.toggle('is-open',o);b.setAttribute('aria-expanded',o?'true':'false');b.setAttribute('aria-label',o?'Закрыть меню':'Меню');document.documentElement.classList.toggle('noscroll',o);if(o){h.classList.remove('is-hidden');if(n)n.style.top=h.getBoundingClientRect().bottom+'px';}}
+window.psMenu=menu;
+if(b){b.addEventListener('click',function(){menu(!h.classList.contains('is-open'));});}
+if(n){n.addEventListener('click',function(e){if(e.target.closest('a')&&!e.target.closest('[data-copy-self]'))menu(false);});}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&h.classList.contains('is-open'))menu(false);});
+mq.addEventListener&&mq.addEventListener('change',function(){if(!mq.matches)menu(false);});
+function upd(){var y=window.scrollY||0;tick=false;if(h.classList.contains('is-open')){last=y;return;}
+if(!mq.matches){h.classList.remove('is-hidden','is-float');last=y;return;}
+if(y>last+4&&y>120){h.classList.add('is-hidden');}else if(y<last-4||y<=120){h.classList.remove('is-hidden');}
+h.classList.toggle('is-float',y>8);last=y;}
+window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});
+document.querySelectorAll('a[href^="/#"],a[href^="#"]').forEach(function(a){if(/#(form|anketa)$/.test(a.getAttribute('href')))return;a.addEventListener('click',function(){if(mq.matches){setTimeout(function(){if((window.scrollY||0)>120)h.classList.add('is-hidden');},400);}});});
+})();
+</script>
 </body>
 </html>

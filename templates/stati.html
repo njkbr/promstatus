@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="wrap-narrow sec doc">
+  <nav class="crumbs small" aria-label="Навигация"><a href="/">Главная</a> / <a href="/stati/">Статьи</a></nav>
+  <h1>Статьи</h1>
+  <p class="muted">Изменения ПП №719 и ПП №1875 для лёгкой промышленности: что меняется, кого касается и чем рискует производитель.</p>
+  <div class="art-list">
+    {% for a in articles %}<a class="card art-item" href="{{ a.path }}"><span class="muted small">{{ a.date_ru }}</span><span class="h4">{{ a.h1 }}</span><span class="muted small">{{ a.description }}</span></a>
+    {% endfor %}
+  </div>
+  <div class="card card-soft cta">
+    <h2 class="h4">Проверим вашу продукцию бесплатно</h2>
+    <p class="muted small">Экспресс-аудит до 3 рабочих дней: путь, баллы, недостающие документы.</p>
+    <a class="btn" href="/#form">Отправить запрос</a>
+  </div>
+</section>
+{% endblock %}

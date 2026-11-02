@@ -6,6 +6,16 @@
   <h1>{{ h1 }}</h1>
   {% if date %}<p class="muted small">{{ date }}</p>{% endif %}
   <div class="prose">{{ body|safe }}</div>
+  {% if extra %}{{ extra|safe }}{% endif %}
+  {% if read_also %}
+  <section class="read-also" aria-label="Читайте также">
+    <h2 class="h4">Читайте также</h2>
+    <div class="art-list">
+      {% for a in read_also %}<a class="card art-item" href="{{ a.path }}"><span class="muted small">{{ a.date_ru }}</span><span class="h4">{{ a.h1 }}</span><span class="muted small">{{ a.description }}</span></a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
   {% if cta %}
   <div class="card card-soft cta">
     <h2 class="h4">Проверим вашу продукцию бесплатно</h2>

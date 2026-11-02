@@ -267,3 +267,57 @@ html.noscroll{overflow:hidden}
 @media (max-width:420px){.hdr .tel{font-size:14px;letter-spacing:0}.hdr-act{gap:8px}.hdr-act .btn-sm{padding-left:12px;padding-right:12px;font-size:14px}}
 @media (max-width:350px){.hdr .tel{font-size:13px}.hdr-act .btn-sm{padding-left:10px;padding-right:10px;font-size:13px}}
 .calc-row--alt label{font-style:italic}
+
+/* Шапка: значки, мобильное меню, скрытие при прокрутке (сборка 5) */
+.hdr{transition:transform .25s ease,box-shadow .25s ease}
+.ib{display:none;width:40px;height:40px;flex:none;border-radius:12px;border:1px solid var(--line);background:var(--white);align-items:center;justify-content:center;padding:0;cursor:pointer;color:var(--ink)}
+.ib svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.ib-tel{color:var(--accent)}
+.ib-menu .i-close{display:none}
+.hdr.is-open .ib-menu .i-open{display:none}
+.hdr.is-open .ib-menu .i-close{display:block}
+.t-sm{display:none}
+.nav-m{display:none}
+@media (max-width:900px){
+  .hdr{position:sticky;top:0}
+  .hdr.is-hidden{transform:translateY(-100%)}
+  .hdr.is-float{box-shadow:0 4px 16px rgba(29,39,51,.10)}
+  .hdr-in{flex-wrap:nowrap;gap:8px;padding-top:8px;padding-bottom:8px;min-height:56px}
+  .logo{margin-right:auto;gap:8px}
+  .logo-mark{width:30px;height:30px}
+  .logo-name{font-size:19px}
+  .hdr-tel{display:none}
+  .ib{display:inline-flex}
+  .hdr-act,.hdr-act{width:auto;gap:8px;margin-left:0}
+  .hdr-act .btn-sm{height:40px;padding:0 14px;display:inline-flex;align-items:center;font-size:15px}
+  .t-lg{display:none}.t-sm{display:inline}
+  .nav{display:none;position:fixed;left:0;right:0;top:56px;bottom:0;z-index:4;background:var(--ground);flex-direction:column;flex-wrap:nowrap;gap:0;padding:8px 16px calc(16px + env(safe-area-inset-bottom));overflow:auto;width:auto;order:0;font-size:20px}
+  .hdr.is-open .nav{display:flex}
+  .nav>a{font-family:var(--display);font-weight:700;padding:13px 2px;border-bottom:1px solid var(--line)}
+  .nav-m{display:flex;flex-direction:column;gap:12px;margin-top:auto;padding-top:24px}
+  .hdr .nav-tel{font-size:20px;font-weight:600;text-decoration:none;letter-spacing:0}
+  .nav-tel b{color:var(--accent)}
+  .nav-m .btn{text-align:center;justify-content:center;font-size:17px;white-space:nowrap;padding-left:12px;padding-right:12px}
+  .nav-mail{text-align:center;color:var(--muted);font-size:15px;text-decoration:none}
+}
+@media (max-width:640px){.hdr{position:sticky}.nav{gap:0;font-size:20px;width:auto}}
+@media (max-width:520px){.hdr-act{width:auto;justify-content:flex-end}}
+@media (max-width:350px){.logo-name{font-size:17px}.hdr-act .btn-sm{padding:0 10px;font-size:14px}.ib{width:36px;height:36px}}
+
+/* Работа во фрейме анкеты: страница «Спасибо» без шапки и подвала */
+html.in-frame .hdr,html.in-frame .ftr,html.in-frame .skip,html.in-frame .crumbs,html.in-frame .fmodal{display:none!important}
+html.in-frame body{background:var(--white)}
+html.in-frame .sec{padding-top:24px;padding-bottom:24px}
+
+/* Цены: 6 карточек, 3 в ряд */
+@media (min-width:901px){
+  #prices .grid-5{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,auto auto 1fr)}
+}
+
+/* Раздел «Статьи» */
+.art-list{display:grid;gap:16px;margin-top:24px}
+.art-item{gap:6px;text-decoration:none;color:var(--ink)}
+.art-item .h4{margin:0}
+.art-item:hover .h4{color:var(--accent)}
+.read-also{margin-top:40px}
+.read-also h2{margin-bottom:12px}

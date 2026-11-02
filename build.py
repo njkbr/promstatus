@@ -65,7 +65,16 @@ def main():
             if f.is_file():
                 shutil.copy2(f, DIST / f.name)
     v = {"css": file_hash(DIST / "static/css/style.css"), "calc": file_hash(DIST / "static/js/calc.js")}
-    base = {"site": SITE, "v": v, "scripts": [], "jsonld": None}
+    # Статьи: список для раздела, подвала и блока «Читайте также» (новые сверху)
+    articles = []
+    for p in (ROOT / "content" / "articles").glob("*.md"):
+        meta, _ = read_md(p)
+        articles.append({"path": "/" + meta["slug"].strip("/") + "/", "h1": meta.get("h1", meta["title"]),
+                         "short": meta.get("short", meta.get("h1", meta["title"])),
+                         "description": meta.get("description", ""), "date": meta.get("date", ""),
+                         "date_ru": ru_date(meta["date"]) if meta.get("date") else ""})
+    articles.sort(key=lambda a: a["date"], reverse=True)
+    base = {"site": SITE, "v": v, "scripts": [], "jsonld": None, "latest_articles": articles}
     urls = []
     lastmod = {}
 
@@ -96,6 +105,18 @@ def main():
         description="Посчитайте баллы для акта экспертизы ТПП: одежда для спортсменов, спецодежда и форма, бельё, носки, сумки. Пороги по ПП №719 в ред. от 15.10.2026."))
     urls.append("/kalkulyator/")
 
+    # Раздел «Статьи»
+    ld = [{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Главная", "item": SITE["base_url"] + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Статьи", "item": SITE["base_url"] + "/stati/"}]}]
+    write("/stati/", env.get_template("stati.html").render(
+        **{**base, "jsonld": json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")}, path="/stati/", articles=articles,
+        page_title="Статьи о реестре Минпромторга для лёгкой промышленности – ПромСтатус",
+        description="Изменения ПП №719 и ПП №1875 для производителей одежды, обуви и текстиля: ПП №1026, СТ-1 после 01.01.2027, акт экспертизы ТПП."))
+    urls.append("/stati/")
+    if articles:
+        lastmod["/stati/"] = max(a["date"] for a in articles)
+
     # Страницы и статьи
     crumbs_map = {"uslugi": [{"name": "Услуги", "href": "/#prices"}]}
     for folder, is_article in (("pages", False), ("articles", True)):
@@ -103,7 +124,7 @@ def main():
             meta, html = read_md(p)
             path = "/" + meta["slug"].strip("/") + "/"
             first = meta["slug"].split("/")[0]
-            crumbs = list(crumbs_map.get(first, []))
+            crumbs = [{"name": "Статьи", "href": "/stati/"}] if is_article else list(crumbs_map.get(first, []))
             crumbs.append({"name": meta.get("h1", meta["title"]), "href": path})
             ld = [{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
                 {"@type": "ListItem", "position": i + 1, "name": c["name"], "item": SITE["base_url"] + c["href"]}
@@ -124,8 +145,10 @@ def main():
                 description=meta.get("description", ""), h1=meta.get("h1", meta["title"]),
                 kicker=meta.get("kicker"), body=html, crumbs=crumbs,
                 date=ru_date(meta["date"]) if meta.get("date") else None,
-                cta=meta["slug"] != "politika"))
-            urls.append(path)
+                cta=meta["slug"] not in ("politika", "spasibo"),
+                read_also=[a for a in articles if a["path"] != path][:3] if is_article else None))
+            if meta.get("noindex") != "true":
+                urls.append(path)
 
     # 404
     (DIST / "404.html").write_text(env.get_template("404.html").render(
