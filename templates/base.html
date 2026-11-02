@@ -128,6 +128,12 @@ d.addEventListener('click',function(e){if(e.target===d)close();});
 document.querySelectorAll('[data-open-form],a[href="/#form"],a[href="#form"]').forEach(function(b){b.addEventListener('click',open);});
 d.querySelector('[data-close-form]').addEventListener('click',close);
 if(location.hash==='#anketa')open();})();
+(function(){var seen={},n=0,sent=false;
+window.addEventListener('message',function(e){if(!/forms\.yandex\.(ru|com)$/.test((e.origin||'').replace(/^https?:\/\//,'')))return;
+var d=e.data,t='';try{if(typeof d==='string'){t=d.slice(0,80);}else if(d&&typeof d==='object'){t=Object.keys(d).slice(0,6).join(',')+'|'+String(d.type||d.event||d.action||d.name||'').slice(0,40);}}catch(x){}
+if(!t)return;
+if(!seen[t]&&n<12&&window.ym){seen[t]=1;n++;try{ym({{ site.metrika_id }},'params',{yform_msg:t});}catch(x){}}
+if(!sent&&/submit|success|sent|finish|thank/i.test(t)){sent=true;if(window.psGoal)psGoal('form_submit');}});})();
 </script>
 {% endif %}
 <script>

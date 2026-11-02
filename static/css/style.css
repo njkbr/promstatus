@@ -321,3 +321,13 @@ html.in-frame .sec{padding-top:24px;padding-bottom:24px}
 .art-item:hover .h4{color:var(--accent)}
 .read-also{margin-top:40px}
 .read-also h2{margin-bottom:12px}
+
+/* Шапка: запас по ширине при увеличенном шрифте в телефоне (сборка 5.1) */
+@media (max-width:900px){
+  .logo{min-width:0;flex:1 1 auto;overflow:hidden}
+  .logo-name{min-width:0;overflow:hidden;text-overflow:clip;white-space:nowrap}
+  .hdr-act{flex:none}
+}
+@media (max-width:400px){.logo-name{font-size:17px}.hdr-act .btn-sm{padding:0 12px}.hdr-act{gap:6px}}
+@media (max-width:300px){.logo-name{display:none}}
+html,body{overflow-x:clip}
