@@ -3,6 +3,8 @@ name: build
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "5 3 * * *"   # 06:05 МСК: публикация статей с датой «сегодня»
   workflow_dispatch:
 
 permissions:
@@ -11,6 +13,10 @@ permissions:
 concurrency:
   group: build
   cancel-in-progress: true
+
+env:
+  INDEXNOW_KEY: "a9d63f02c85311bc03a129b931473741"
+  SITE: "https://promstatus.ru"
 
 jobs:
   build:
@@ -22,6 +28,29 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - run: python build.py
+      - name: Previous build (for IndexNow)
+        run: git fetch -q --depth 1 origin site:prev-site && git worktree add -q prev prev-site || mkdir -p prev
+      - name: Changed pages
+        run: |
+          python - <<'PY'
+          import hashlib, pathlib, os
+          new, old = pathlib.Path("dist"), pathlib.Path("prev")
+          site = os.environ["SITE"]
+          urls = []
+          for f in sorted(new.rglob("index.html")):
+              rel = f.relative_to(new)
+              o = old / rel
+              h = lambda p: hashlib.md5(p.read_bytes()).hexdigest()
+              if not o.exists() or h(o) != h(f):
+                  html = f.read_text(encoding="utf-8")
+                  if 'name="robots" content="noindex' in html:
+                      continue
+                  path = "/" + str(rel.parent).replace("\\", "/").strip(".") 
+                  path = "/" if path in ("/", "/.") else path.rstrip("/") + "/"
+                  urls.append(site + path)
+          pathlib.Path("changed.txt").write_text("\n".join(urls))
+          print("changed:", urls)
+          PY
       - name: Publish dist to branch "site"
         working-directory: dist
         run: |
@@ -32,3 +61,21 @@ jobs:
           git add -A
           git commit -q -m "build $(cat build-hash.txt)"
           git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" site
+      - name: IndexNow (after hosting picks up the build)
+        if: ${{ hashFiles('changed.txt') != '' }}
+        run: |
+          [ -s changed.txt ] || { echo "no changed pages"; exit 0; }
+          sleep 480
+          python - <<'PY'
+          import json, os, urllib.request
+          urls = [u for u in open("changed.txt").read().split() if u]
+          body = json.dumps({"host": "promstatus.ru", "key": os.environ["INDEXNOW_KEY"],
+                             "keyLocation": os.environ["SITE"] + "/" + os.environ["INDEXNOW_KEY"] + ".txt",
+                             "urlList": urls}).encode()
+          req = urllib.request.Request("https://yandex.com/indexnow", data=body,
+                                       headers={"Content-Type": "application/json; charset=utf-8"})
+          try:
+              print(urllib.request.urlopen(req, timeout=30).status, urls)
+          except Exception as e:
+              print("IndexNow error:", e)
+          PY
