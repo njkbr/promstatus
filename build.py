@@ -5,13 +5,14 @@ import json
 import re
 import shutil
 import tomllib
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import markdown
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 ROOT = Path(__file__).parent
+TODAY = (datetime.now(timezone.utc) + timedelta(hours=3)).date()  # дата по Москве: статьи с будущей датой не публикуются
 DIST = ROOT / "dist"
 SITE = tomllib.loads((ROOT / "site.toml").read_text(encoding="utf-8"))
 HOME = tomllib.loads((ROOT / "content" / "home.toml").read_text(encoding="utf-8"))
@@ -69,6 +70,8 @@ def main():
     articles = []
     for p in (ROOT / "content" / "articles").glob("*.md"):
         meta, _ = read_md(p)
+        if meta.get("date") and date.fromisoformat(meta["date"]) > TODAY:
+            continue
         articles.append({"path": "/" + meta["slug"].strip("/") + "/", "h1": meta.get("h1", meta["title"]),
                          "short": meta.get("short", meta.get("h1", meta["title"])),
                          "description": meta.get("description", ""), "date": meta.get("date", ""),
@@ -122,6 +125,9 @@ def main():
     for folder, is_article in (("pages", False), ("articles", True)):
         for p in sorted((ROOT / "content" / folder).glob("*.md")):
             meta, html = read_md(p)
+            if is_article and meta.get("date") and date.fromisoformat(meta["date"]) > TODAY:
+                print("отложена до", meta["date"], ":", meta["slug"])
+                continue
             path = "/" + meta["slug"].strip("/") + "/"
             first = meta["slug"].split("/")[0]
             crumbs = [{"name": "Статьи", "href": "/stati/"}] if is_article else list(crumbs_map.get(first, []))
@@ -129,12 +135,22 @@ def main():
             ld = [{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
                 {"@type": "ListItem", "position": i + 1, "name": c["name"], "item": SITE["base_url"] + c["href"]}
                 for i, c in enumerate([{"name": "Главная", "href": "/"}] + crumbs)]}]
+            svc = {"uslugi/st-1": ("Включение в реестр Минпромторга по СТ-1 под ключ", 140000),
+                   "uslugi/akt-tpp": ("Акт экспертизы ТПП и запись в реестре под ключ", 180000),
+                   "uslugi/etap": ("Проверка пакета для ТПП или ответ на замечания", 40000),
+                   "uslugi/soprovozhdenie": ("Сопровождение записей в реестре Минпромторга", 80000)}.get(meta["slug"].strip("/"))
+            if svc:
+                ld.append({"@context": "https://schema.org", "@type": "Service", "name": svc[0], "serviceType": "Включение продукции в реестр российской промышленной продукции",
+                           "provider": {"@type": "ProfessionalService", "name": SITE["name"], "url": SITE["base_url"]}, "areaServed": "RU",
+                           "url": SITE["base_url"] + path, "description": meta.get("description", ""),
+                           "offers": {"@type": "Offer", "priceCurrency": "RUB", "price": svc[1],
+                                      "priceSpecification": {"@type": "PriceSpecification", "minPrice": svc[1], "priceCurrency": "RUB"}}})
             if is_article:
                 ld.append({"@context": "https://schema.org", "@type": "Article", "headline": meta.get("h1", meta["title"]),
                            "description": meta.get("description", ""), "datePublished": meta.get("date"),
                            "dateModified": meta.get("updated", meta.get("date")), "inLanguage": "ru",
                            "mainEntityOfPage": SITE["base_url"] + path, "image": SITE["base_url"] + "/static/img/og-promstatus.png",
-                           "author": {"@type": "Organization", "name": SITE["name"], "url": SITE["base_url"]},
+                           "author": {"@type": "Person", "name": "Анатолий Алимов", "jobTitle": "руководитель проекта", "url": SITE["base_url"] + "/o-nas/"},
                            "publisher": {"@type": "Organization", "name": SITE["name"], "url": SITE["base_url"]}})
             if meta.get("updated") or meta.get("date"):
                 lastmod[path] = meta.get("updated", meta.get("date"))
@@ -146,6 +162,7 @@ def main():
                 kicker=meta.get("kicker"), body=html, crumbs=crumbs,
                 date=ru_date(meta["date"]) if meta.get("date") else None,
                 cta=meta["slug"] not in ("politika", "spasibo"),
+                is_article=is_article,
                 read_also=[a for a in articles if a["path"] != path][:3] if is_article else None))
             if meta.get("noindex") != "true":
                 urls.append(path)
@@ -159,7 +176,7 @@ def main():
 
     # robots и sitemap
     (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /404.html\n\nUser-agent: Yandex\nAllow: /\nDisallow: /404.html\nClean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&from\n\nSitemap: {SITE['base_url']}/sitemap.xml\n", encoding="utf-8")
-    today = date.today().isoformat()
+    today = TODAY.isoformat()
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     sm += [f"  <url><loc>{SITE['base_url']}{u}</loc><lastmod>{lastmod.get(u, today)}</lastmod></url>" for u in urls]
     sm.append("</urlset>")

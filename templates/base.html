@@ -24,6 +24,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{{ site.base_url }}/static/img/og-promstatus.png">
 <meta name="theme-color" content="#1D2733">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/static/img/favicon-120.png" type="image/png" sizes="120x120">
+<link rel="icon" href="/static/img/favicon-192.png" type="image/png" sizes="192x192">
 <link rel="icon" href="/static/img/favicon.svg?v=2" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
 <link rel="preload" href="/static/fonts/manrope-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -47,6 +50,7 @@
       <a href="/dokumenty/">Документы</a>
       <a href="/#prices">Цены</a>
       <a href="/#faq">Вопросы</a>
+      <a href="/o-nas/">О нас</a>
       <div class="nav-m">
         <a class="tel nav-tel" href="tel:{{ site.phone }}" data-goal="phone">+7&nbsp;<b>934</b>&nbsp;34-45-<b>934</b></a>
         <a class="btn btn-block" href="/#form">Бесплатный экспресс-аудит</a>
@@ -84,6 +88,7 @@
       {% for a in latest_articles[:2] %}<a href="{{ a.path }}">{{ a.short }}</a>
       {% endfor %}
       <a href="/dokumenty/">Документы для ТПП</a>
+      <a href="/o-nas/">О нас</a>
     </nav>
     <div class="ftr-col">
       <span class="ftr-h">Контакты</span>
@@ -111,7 +116,7 @@ document.querySelectorAll('[data-tel]').forEach(function(a){a.addEventListener('
 </script>
 {% if site.metrika_id %}<script>if(window.self===window.top){(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js?id={{ site.metrika_id }}","ym");ym({{ site.metrika_id }},"init",{ssr:true,webvisor:true,clickmap:true,referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});}
 document.addEventListener('click',function(e){var g=e.target.closest('[data-goal]');if(g&&window.ym){ym({{ site.metrika_id }},'reachGoal',g.getAttribute('data-goal'));}});
-window.psGoal=function(n){if(window.self!==window.top){try{if(window.parent.psGoal){window.parent.psGoal(n);}}catch(e){}return;}if(window.ym){ym({{ site.metrika_id }},'reachGoal',n);}};</script>
+window.psGoal=function(n){if(window.self!==window.top){try{if(window.parent.psGoal){window.parent.psGoal(n);}}catch(e){}return;}if(n==='form_submit'){var t=Date.now();if(window.__psSent&&t-window.__psSent<600000)return;window.__psSent=t;}if(window.ym){ym({{ site.metrika_id }},'reachGoal',n);}};</script>
 <noscript><div><img src="https://mc.yandex.ru/watch/{{ site.metrika_id }}" style="position:absolute;left:-9999px" alt=""></div></noscript>{% endif %}
 {% if site.yandex_form_url %}
 <dialog class="fmodal" id="fmodal" aria-label="Анкета экспресс-аудита">
@@ -128,16 +133,13 @@ d.addEventListener('click',function(e){if(e.target===d)close();});
 document.querySelectorAll('[data-open-form],a[href="/#form"],a[href="#form"]').forEach(function(b){b.addEventListener('click',open);});
 d.querySelector('[data-close-form]').addEventListener('click',close);
 if(location.hash==='#anketa')open();})();
-(function(){var seen={},n=0,sent=false;
-window.addEventListener('message',function(e){if(!/forms\.yandex\.(ru|com)$/.test((e.origin||'').replace(/^https?:\/\//,'')))return;
-var d=e.data,t='';try{if(typeof d==='string'){t=d.slice(0,80);}else if(d&&typeof d==='object'){t=Object.keys(d).slice(0,6).join(',')+'|'+String(d.type||d.event||d.action||d.name||'').slice(0,40);}}catch(x){}
-if(!t)return;
-if(!seen[t]&&n<12&&window.ym){seen[t]=1;n++;try{ym({{ site.metrika_id }},'params',{yform_msg:t});}catch(x){}}
-if(!sent&&/submit|success|sent|finish|thank/i.test(t)){sent=true;if(window.psGoal)psGoal('form_submit');}});})();
+(function(){window.addEventListener('message',function(e){if(!/forms\.yandex\.(ru|com)$/.test((e.origin||'').replace(/^https?:\/\//,'')))return;
+var d=e.data;if(typeof d==='string'){try{d=JSON.parse(d);}catch(x){return;}}
+if(d&&typeof d==='object'&&d.message==='sent'&&window.psGoal){psGoal('form_submit');}});})();
 </script>
 {% endif %}
 <script>
-(function(){var h=document.getElementById('hdr');if(!h)return;var b=h.querySelector('.ib-menu'),n=document.getElementById('nav'),mq=window.matchMedia('(max-width:900px)'),last=window.scrollY||0,tick=false;
+(function(){var h=document.getElementById('hdr');if(!h)return;var b=h.querySelector('.ib-menu'),n=document.getElementById('nav'),mq=window.matchMedia('(max-width:1100px)'),last=window.scrollY||0,tick=false;
 function menu(o){if(!b)return;h.classList.toggle('is-open',o);b.setAttribute('aria-expanded',o?'true':'false');b.setAttribute('aria-label',o?'Закрыть меню':'Меню');document.documentElement.classList.toggle('noscroll',o);if(o){h.classList.remove('is-hidden');if(n)n.style.top=h.getBoundingClientRect().bottom+'px';}}
 window.psMenu=menu;
 if(b){b.addEventListener('click',function(){menu(!h.classList.contains('is-open'));});}
@@ -149,6 +151,8 @@ if(!mq.matches){h.classList.remove('is-hidden','is-float');last=y;return;}
 if(y>last+4&&y>120){h.classList.add('is-hidden');}else if(y<last-4||y<=120){h.classList.remove('is-hidden');}
 h.classList.toggle('is-float',y>8);last=y;}
 window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});
+function fit(){var n=h.querySelector('.logo-name');if(!n)return;n.style.fontSize='';if(!mq.matches)return;var f=parseFloat(getComputedStyle(n).fontSize),k=0;while(n.scrollWidth>n.clientWidth+1&&f>12&&k<12){f-=1;n.style.fontSize=f+'px';k++;}}
+fit();window.addEventListener('resize',fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
 document.querySelectorAll('a[href^="/#"],a[href^="#"]').forEach(function(a){if(/#(form|anketa)$/.test(a.getAttribute('href')))return;a.addEventListener('click',function(){if(mq.matches){setTimeout(function(){if((window.scrollY||0)>120)h.classList.add('is-hidden');},400);}});});
 })();
 </script>

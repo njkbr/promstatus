@@ -278,7 +278,7 @@ html.noscroll{overflow:hidden}
 .hdr.is-open .ib-menu .i-close{display:block}
 .t-sm{display:none}
 .nav-m{display:none}
-@media (max-width:900px){
+@media (max-width:1100px){
   .hdr{position:sticky;top:0}
   .hdr.is-hidden{transform:translateY(-100%)}
   .hdr.is-float{box-shadow:0 4px 16px rgba(29,39,51,.10)}
@@ -323,7 +323,7 @@ html.in-frame .sec{padding-top:24px;padding-bottom:24px}
 .read-also h2{margin-bottom:12px}
 
 /* Шапка: запас по ширине при увеличенном шрифте в телефоне (сборка 5.1) */
-@media (max-width:900px){
+@media (max-width:1100px){
   .logo{min-width:0;flex:1 1 auto;overflow:hidden}
   .logo-name{min-width:0;overflow:hidden;text-overflow:clip;white-space:nowrap}
   .hdr-act{flex:none}
@@ -331,3 +331,40 @@ html.in-frame .sec{padding-top:24px;padding-bottom:24px}
 @media (max-width:400px){.logo-name{font-size:17px}.hdr-act .btn-sm{padding:0 12px}.hdr-act{gap:6px}}
 @media (max-width:300px){.logo-name{display:none}}
 html,body{overflow-x:clip}
+
+/* Шапка при крупном шрифте в телефоне: название целиком (сборка 6) */
+@media (max-width:1100px){
+  .ib{width:36px;height:36px;border-radius:10px}
+  .ib svg{width:18px;height:18px}
+  .hdr-act{gap:6px}
+  .hdr-act .btn-sm{height:36px;padding:0 11px;font-size:14px}
+  .logo-name{font-size:clamp(15px,4.8vw,19px)}
+  .logo-mark{width:28px;height:28px}
+}
+@media (max-width:400px){.logo-name{font-size:clamp(15px,4.6vw,17px)}}
+
+/* «О нас» и блок автора (сборка 6) */
+.person{display:flex;align-items:center;gap:16px;margin:28px 0 8px}
+.person-mk{width:64px;height:64px;flex:none}
+.person-mk svg{width:64px;height:64px;display:block}
+.person-n{font-family:var(--display);font-weight:800;font-size:22px;margin:0}
+.person-r{color:var(--muted);margin:2px 0 0}
+.author{display:flex;gap:14px;align-items:center;margin-top:32px;padding-top:20px;border-top:1px dashed var(--line);font-size:15px;color:var(--muted)}
+.author svg{width:44px;height:44px;flex:none}
+.author b{color:var(--ink);font-weight:600}
+
+/* Самостоятельно или с ПромСтатусом */
+.cmp{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--white);margin-top:24px}
+.cmp-row{display:grid;grid-template-columns:180px 1fr 1fr;gap:20px;padding:16px 22px;border-top:1px solid var(--line);font-size:15px;line-height:1.5}
+.cmp-row:first-child{border-top:0}
+.cmp-head{background:var(--soft);font-weight:600;font-size:14px;color:var(--muted)}
+.cmp-self{color:var(--muted)}
+.cmp-us{color:var(--ink)}
+.cmp-us::before{content:"✓ ";color:var(--accent);font-weight:700}
+@media (max-width:760px){
+  .cmp-row{grid-template-columns:1fr;gap:6px;padding:14px 16px}
+  .cmp-head{display:none}
+  .cmp-self::before{content:"Самостоятельно: ";font-weight:600;color:var(--ink)}
+}
+
+@media (max-width:1240px) and (min-width:1101px){.nav a[href="/o-nas/"]{display:none}}

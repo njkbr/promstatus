@@ -7,6 +7,9 @@
   {% if date %}<p class="muted small">{{ date }}</p>{% endif %}
   <div class="prose">{{ body|safe }}</div>
   {% if extra %}{{ extra|safe }}{% endif %}
+  {% if is_article %}
+  <div class="author"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1D2733"/><rect x="11.5" y="16" width="8" height="8" rx="2" fill="none" stroke="#8A8E93" stroke-width="2.2"/><line x1="27" y1="20" x2="49" y2="20" stroke="#8A8E93" stroke-width="6" stroke-linecap="round"/><rect x="11.5" y="28" width="8" height="8" rx="2" fill="none" stroke="#8A8E93" stroke-width="2.2"/><line x1="27" y1="32" x2="49" y2="32" stroke="#8A8E93" stroke-width="6" stroke-linecap="round"/><path d="M10.5 44L14.5 48.5L22 38.5" stroke="#A9512B" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="27" y1="44" x2="53" y2="44" stroke="#A9512B" stroke-width="6" stroke-linecap="round"/></svg><div><b>Анатолий Алимов</b>, руководитель проекта ПромСтатус. 8 лет в лёгкой промышленности: производство и исполнение государственных контрактов. <a href="/o-nas/">О нас</a></div></div>
+  {% endif %}
   {% if read_also %}
   <section class="read-also" aria-label="Читайте также">
     <h2 class="h4">Читайте также</h2>

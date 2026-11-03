@@ -79,6 +79,20 @@
   </div>
 </section>
 
+{% if h.compare %}
+<section class="wrap sec" id="compare">
+  <h2>{{ h.compare.h }}</h2>
+  <p class="muted sec-lead">{{ h.compare.t }}</p>
+  <div class="cmp" role="table" aria-label="{{ h.compare.h }}">
+    <div class="cmp-row cmp-head" role="row"><span role="columnheader">Этап</span><span role="columnheader">Самостоятельно</span><span role="columnheader">С ПромСтатусом</span></div>
+    {% for r in h.compare_rows %}<div class="cmp-row" role="row"><b role="cell">{{ r.step }}</b><span role="cell" class="cmp-self">{{ r.self }}</span><span role="cell" class="cmp-us">{{ r.us }}</span></div>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="wrap"><hr class="stitch"></div>
+
+{% endif %}
 <section class="wrap sec" id="prices">
   <h2>Услуги и цены</h2>
   <p class="muted sec-lead">{{ h.prices_intro.text }}</p>
