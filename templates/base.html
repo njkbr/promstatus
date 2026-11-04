@@ -54,7 +54,7 @@
       <div class="nav-m">
         <a class="tel nav-tel" href="tel:{{ site.phone }}" data-goal="phone">+7&nbsp;<b>934</b>&nbsp;34-45-<b>934</b></a>
         <a class="btn btn-block" href="/#form">Бесплатный экспресс-аудит</a>
-        <a class="nav-mail cp" href="mailto:{{ site.email }}" data-copy-self="{{ site.email }}" data-goal="copy_email">{{ site.email }}</a>
+        {{ email_html("nav-mail cp") }}
       </div>
     </nav>
     <div class="hdr-act">
@@ -78,6 +78,7 @@
       <span class="ftr-h">Услуги</span>
       <a href="/uslugi/st-1/">Под ключ: СТ-1</a>
       <a href="/uslugi/akt-tpp/">Под ключ: акт ТПП</a>
+      <a href="/uslugi/katalog-gisp/">Каталог ГИСП</a>
       <a href="/uslugi/etap/">Отдельный этап</a>
       <a href="/uslugi/soprovozhdenie/">Сопровождение</a>
     </nav>
@@ -93,7 +94,7 @@
     <div class="ftr-col">
       <span class="ftr-h">Контакты</span>
       <a class="tel cp" href="tel:{{ site.phone }}" data-tel="{{ site.phone_doc }}" data-goal="phone">+7&nbsp;<b>934</b>&nbsp;34-45-<b>934</b></a>
-      <a class="cp" href="mailto:{{ site.email }}" data-copy-self="{{ site.email }}" data-goal="copy_email">{{ site.email }}</a>
+      {{ email_html("cp") }}
       {% if site.max_url %}<a href="{{ site.max_url }}" data-goal="max">Написать в МАКС</a>{% endif %}
       <a href="/#form">Бесплатный аудит</a>
     </div>
@@ -106,7 +107,7 @@
 {% for s in scripts %}<script src="{{ s }}" defer></script>
 {% endfor %}
 <script>
-(function(){var touch=window.matchMedia&&matchMedia('(hover:none) and (pointer:coarse)').matches;
+(function(){document.querySelectorAll('[data-u]').forEach(function(a){var e=a.getAttribute('data-u')+'@'+a.getAttribute('data-d');a.href='mailto:'+e;a.textContent=e;a.setAttribute('data-copy-self',e);});var touch=window.matchMedia&&matchMedia('(hover:none) and (pointer:coarse)').matches;
 function copy(t,ok){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(ok,fb);}else{fb();}
 function fb(){var i=document.createElement('textarea');i.value=t;i.style.position='fixed';i.style.opacity='0';document.body.appendChild(i);i.select();try{document.execCommand('copy');ok();}catch(e){}document.body.removeChild(i);}}
 function flash(el){if(el._t)return;var h=el.innerHTML;el.style.minWidth=el.offsetWidth+'px';el.classList.add('is-done');el.textContent='Скопировано';

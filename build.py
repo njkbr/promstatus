@@ -32,6 +32,19 @@ def file_hash(p):
     return hashlib.md5(p.read_bytes()).hexdigest()[:8]
 
 
+from markupsafe import Markup  # noqa: E402
+
+
+def email_html(cls="cp"):
+    """Адрес почты без «@» в исходном коде: собирается скриптом на странице (защита от сборщиков спама)."""
+    u, d = SITE["email"].split("@")
+    return (f'<a class="{cls}" href="#" data-u="{u}" data-d="{d}" data-goal="copy_email">'
+            f'{u} [собака] {d}</a>')
+
+
+env.globals["email_html"] = lambda cls="cp": Markup(email_html(cls))
+
+
 def read_md(p):
     text = p.read_text(encoding="utf-8")
     meta, body = {}, text
@@ -43,7 +56,7 @@ def read_md(p):
                 meta[k.strip()] = v.strip()
         body = m.group(2)
     # подстановка {{ owner_name }} и т.п. из site.toml (для политики)
-    body = env.from_string(body).render(**SITE)
+    body = env.from_string(body).render(**{**SITE, "email": Markup(email_html())})
     html = markdown.markdown(body, extensions=["tables", "sane_lists"])
     return meta, html
 
@@ -83,7 +96,7 @@ def main():
 
     org = {
         "@context": "https://schema.org", "@type": "ProfessionalService",
-        "name": SITE["name"], "url": SITE["base_url"], "email": SITE["email"], "telephone": SITE["phone"],
+        "name": SITE["name"], "url": SITE["base_url"], "telephone": SITE["phone"],
         "logo": SITE["base_url"] + "/static/img/apple-touch-icon.png", "image": SITE["base_url"] + "/static/img/og-promstatus.png",
         "description": "Включение продукции лёгкой промышленности в реестр российской промышленной продукции по ПП №719.",
         "areaServed": "RU",
@@ -137,6 +150,7 @@ def main():
                 for i, c in enumerate([{"name": "Главная", "href": "/"}] + crumbs)]}]
             svc = {"uslugi/st-1": ("Включение в реестр Минпромторга по СТ-1 под ключ", 140000),
                    "uslugi/akt-tpp": ("Акт экспертизы ТПП и запись в реестре под ключ", 180000),
+                   "uslugi/katalog-gisp": ("Формирование каталога продукции в ГИСП", 30000),
                    "uslugi/etap": ("Проверка пакета для ТПП или ответ на замечания", 40000),
                    "uslugi/soprovozhdenie": ("Сопровождение записей в реестре Минпромторга", 80000)}.get(meta["slug"].strip("/"))
             if svc:

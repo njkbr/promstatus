@@ -144,13 +144,13 @@
       <h3 class="h4">Расскажите о продукции</h3>
       <p class="muted small">10 коротких вопросов: компания, что производите, тип производства, есть ли записи в реестре. Ответим на email до 3 рабочих дней.</p>
       <button class="btn btn-block" type="button" data-open-form>Заполнить анкету</button>
-      <p class="muted small form-alt">Удобнее позвонить или написать?<br><a class="tel cp" href="tel:{{ site.phone }}" data-tel="{{ site.phone_doc }}" data-goal="phone">+7&nbsp;<b>934</b>&nbsp;34-45-<b>934</b></a> · <a class="mailbox-inline cp" href="mailto:{{ site.email }}" data-copy-self="{{ site.email }}" data-goal="copy_email">{{ site.email }}</a></p>
+      <p class="muted small form-alt">Удобнее позвонить или написать?<br><a class="tel cp" href="tel:{{ site.phone }}" data-tel="{{ site.phone_doc }}" data-goal="phone">+7&nbsp;<b>934</b>&nbsp;34-45-<b>934</b></a> · {{ email_html("mailbox-inline cp") }}</p>
       {% else %}
       <h3 class="h4">Напишите нам</h3>
       <p class="muted small">Пришлите список продукции и реквизиты компании. Ответим до 3 рабочих дней.</p>
       <div class="btns col">
         <div class="mailbox">
-          <a class="mailbox-addr cp" href="mailto:{{ site.email }}" data-copy-self="{{ site.email }}" data-goal="copy_email">{{ site.email }}</a>
+          {{ email_html("mailbox-addr cp") }}
           <a class="tel cp" href="tel:{{ site.phone }}" data-tel="{{ site.phone_doc }}" data-goal="phone">+7&nbsp;<b>934</b>&nbsp;34-45-<b>934</b></a>
         </div>
       </div>
