@@ -55,6 +55,7 @@
         <a class="tel nav-tel" href="tel:{{ site.phone }}" data-goal="phone">+7&nbsp;<b>934</b>&nbsp;34-45-<b>934</b></a>
         <a class="btn btn-block" href="/#form">Бесплатный экспресс-аудит</a>
         {{ email_html("nav-mail cp") }}
+        {% if site.max_url %}<a class="nav-max" href="{{ site.max_url }}" target="_blank" rel="noopener" data-goal="max">Написать в МАКС</a>{% endif %}
       </div>
     </nav>
     <div class="hdr-act">
@@ -95,7 +96,7 @@
       <span class="ftr-h">Контакты</span>
       <a class="tel cp" href="tel:{{ site.phone }}" data-tel="{{ site.phone_doc }}" data-goal="phone">+7&nbsp;<b>934</b>&nbsp;34-45-<b>934</b></a>
       {{ email_html("cp") }}
-      {% if site.max_url %}<a href="{{ site.max_url }}" data-goal="max">Написать в МАКС</a>{% endif %}
+      {% if site.max_url %}<a class="ftr-max" href="{{ site.max_url }}" target="_blank" rel="noopener" data-goal="max">Написать в МАКС</a><span class="ftr-note">для вопросов; анкету и документы – через форму или почту</span>{% endif %}
       <a href="/#form">Бесплатный аудит</a>
     </div>
   </div>

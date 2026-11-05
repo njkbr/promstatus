@@ -7,7 +7,7 @@ phone_display = "+7 934 34-45-934"
 phone_doc = "+7 934 344-59-34"
 tagline = "реестр 719 · нацрежим 1875"
 # МАКС: ссылка на канал/чат. Пока пусто – кнопка не показывается.
-max_url = ""
+max_url = "https://max.ru/u/f9LHodD0cOIRVCjcEbLaAvYFXBkEcof7c7LqWGGljW8mRb-RHnjEFKSBV_c"
 # Telegram заморожен 30.10.2026 (персональные данные), на сайте не показывается.
 telegram = ""
 

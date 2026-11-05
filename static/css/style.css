@@ -368,3 +368,9 @@ html,body{overflow-x:clip}
 }
 
 @media (max-width:1240px) and (min-width:1101px){.nav a[href="/o-nas/"]{display:none}}
+
+/* Сборка 8: МАКС */
+.ftr-note{display:block;font-size:12px;line-height:1.35;margin:-4px 0 4px;max-width:240px}
+.nav-max{display:none}
+@media (max-width:1100px){.nav-m .nav-max{display:block;text-align:center;color:var(--muted);font-size:15px;text-decoration:none}}
+.ftr-note{color:var(--muted)}
