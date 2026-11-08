@@ -374,3 +374,6 @@ html,body{overflow-x:clip}
 .nav-max{display:none}
 @media (max-width:1100px){.nav-m .nav-max{display:block;text-align:center;color:var(--muted);font-size:15px;text-decoration:none}}
 .ftr-note{color:var(--muted)}
+
+/* Сборка 9: калькулятор – выбор в два шага */
+.calc-main .field + .field{margin-top:16px}

@@ -514,14 +514,28 @@
     minnote: root.querySelector('[data-calc-minnote]')
   };
 
-  var cats = {};
+  // Выбор в два шага: вид продукции -> группа продукции (математика не меняется, считается по sel.value)
+  var kind = root.querySelector('[data-calc-kind]');
+  var cats = {}, catOrder = [];
   GROUPS.forEach(function (g) {
     var c = g.cat || 'Прочее';
-    if (!cats[c]) { cats[c] = document.createElement('optgroup'); cats[c].label = c; sel.appendChild(cats[c]); }
-    var o = document.createElement('option');
-    o.value = g.id; o.textContent = g.name;
-    cats[c].appendChild(o);
+    if (!cats[c]) { cats[c] = []; catOrder.push(c); }
+    cats[c].push(g);
   });
+  catOrder.forEach(function (c) {
+    var o = document.createElement('option');
+    o.value = c; o.textContent = c + ' (' + cats[c].length + ')';
+    kind.appendChild(o);
+  });
+  function fillGroups() {
+    sel.textContent = '';
+    (cats[kind.value] || []).forEach(function (g) {
+      var o = document.createElement('option');
+      o.value = g.id; o.textContent = g.name;
+      sel.appendChild(o);
+    });
+  }
+  fillGroups();
 
   function render() {
     var g = GROUPS.filter(function (x) { return x.id === sel.value; })[0] || GROUPS[0];
@@ -617,6 +631,7 @@
     out.warn.hidden = !zero;
   }
 
+  kind.addEventListener('change', function () { fillGroups(); render(); });
   sel.addEventListener('change', render);
   var goalSent = false;
   function goal() { if (!goalSent && window.psGoal) { goalSent = true; window.psGoal('calc_used'); } }
