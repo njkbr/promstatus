@@ -377,3 +377,6 @@ html,body{overflow-x:clip}
 
 /* Сборка 9: калькулятор – выбор в два шага */
 .calc-main .field + .field{margin-top:16px}
+
+/* Сборка 10: выбор варианта (метод крепления, материал) */
+.calc-mode label{flex-basis:100%}
