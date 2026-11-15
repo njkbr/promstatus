@@ -32,6 +32,19 @@ def file_hash(p):
     return hashlib.md5(p.read_bytes()).hexdigest()[:8]
 
 
+def article_faq(p):
+    """Вопросы и ответы из раздела «## Частые вопросы» статьи: «**Вопрос?**» и абзац ответа под ним (для разметки FAQPage)."""
+    text = p.read_text(encoding="utf-8")
+    m = re.search(r"^## Частые вопросы\n(.*?)(?=^## |\Z)", text, re.S | re.M)
+    if not m:
+        return []
+    out = []
+    for q, a in re.findall(r"^\*\*(.+?)\*\*\n(.+?)(?=\n\s*\n|\Z)", m.group(1), re.S | re.M):
+        a = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", a).replace("**", "").strip()
+        out.append((q.strip(), " ".join(a.split())))
+    return out
+
+
 from markupsafe import Markup  # noqa: E402
 
 
@@ -166,6 +179,11 @@ def main():
                            "mainEntityOfPage": SITE["base_url"] + path, "image": SITE["base_url"] + "/static/img/og-promstatus.png",
                            "author": {"@type": "Person", "name": "Анатолий Алимов", "jobTitle": "руководитель проекта", "url": SITE["base_url"] + "/o-nas/"},
                            "publisher": {"@type": "Organization", "name": SITE["name"], "url": SITE["base_url"]}})
+            if is_article:
+                faq = article_faq(p)
+                if faq:
+                    ld.append({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+                        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]})
             if meta.get("updated") or meta.get("date"):
                 lastmod[path] = meta.get("updated", meta.get("date"))
             write(path, env.get_template("page.html").render(
